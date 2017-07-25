@@ -1,0 +1,18 @@
+<div class="container" style="margin-top: 2rem">
+  <div class="row">
+    <div class="col">
+      {{#user}}
+        <h1>
+          You are logged in as {{ username }}.
+          <small><a href="/logout/">Logout</a></small>
+        </h1>
+      {{/user}}
+      {{^user}}
+      <h1>
+        You are not logged in.
+        <small><a href="/login/">Login</a> | <a href="/register/">Register</a></small>
+      </h1>
+      {{/user}}
+    </div>
+  </div>
+</div>
