@@ -33,12 +33,14 @@ userSchema.statics.authenticate = function(username, password, done) {
     }, function(err, user) {
         if (err) {
             done(err, false)
-        } else {
+        } else if (user) {
             if (user.authenticate(password)) {
                 done(null, user)
             } else {
                 done(null, false)
             }
+        } else {
+          done(null, false)
         }
     })
 };
