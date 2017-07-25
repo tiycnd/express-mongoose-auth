@@ -24,26 +24,19 @@ app.use('/static', express.static('static'));
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        User.findOne({
-            username: username
-        }, function(err, user) {
+        User.authenticate(username, password, function(err, user) {
             if (err) {
-                return done(err);
+                return done(err)
             }
-            if (!user) {
+            if (user) {
+                return done(null, user)
+            } else {
                 return done(null, false, {
-                    message: 'Incorrect username.'
-                });
+                    message: "There is no user with that username and password."
+                })
             }
-            if (!user.authenticate(password)) {
-                return done(null, false, {
-                    message: 'Incorrect password.'
-                });
-            }
-            return done(null, user);
-        });
-    }
-));
+        })
+    }));
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
@@ -65,7 +58,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
-    store: new (require('express-sessions'))({
+    store: new(require('express-sessions'))({
         storage: 'mongodb',
         instance: mongoose, // optional
         host: 'localhost', // optional
