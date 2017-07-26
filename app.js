@@ -73,10 +73,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  next();
+})
+
 app.get('/', function(req, res) {
-    res.render("index", {
-        user: req.user
-    });
+    res.render("index");
 })
 
 app.get('/login/', function(req, res) {
@@ -144,6 +147,18 @@ app.get('/logout/', function(req, res) {
     req.logout();
     res.redirect('/');
 });
+
+const requireLogin = function (req, res, next) {
+  if (req.user) {
+    next()
+  } else {
+    res.redirect('/login/');
+  }
+}
+
+app.get('/secret/', requireLogin, function (req, res) {
+  res.render("secret");
+})
 
 app.listen(3000, function() {
     console.log('Express running on http://localhost:3000/.')
