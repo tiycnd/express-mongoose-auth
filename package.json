@@ -5,6 +5,7 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "express-flash-messages": "^0.1.1",
+    "express-formidable": "^1.0.0",
     "express-session": "^1.15.4",
     "express-sessions": "^1.0.6",
     "express-validator": "^3.2.1",
