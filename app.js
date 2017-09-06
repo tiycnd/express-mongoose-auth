@@ -20,37 +20,23 @@ app.set('view engine', 'mustache')
 app.set('layout', 'layout');
 app.use('/static', express.static('static'));
 
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-        User.authenticate(username, password, function(err, user) {
-            if (err) {
-                return done(err)
-            }
-            if (user) {
-                return done(null, user)
-            } else {
-                return done(null, false, {
-                    message: "There is no user with that username and password."
-                })
-            }
-        })
-    }));
+const authenticateUser = function(username, password, done) {
+    User.authenticate(username, password, function(err, user) {
+        if (err) {
+            return done(err)
+        }
+        if (user) {
+            return done(null, user)
+        } else {
+            return done(null, false, {
+                message: "There is no user with that username and password."
+            })
+        }
+    })
+}
 
-passport.use(new BasicStrategy(
-    function(username, password, done) {
-        User.authenticate(username, password, function(err, user) {
-            if (err) {
-                return done(err)
-            }
-            if (user) {
-                return done(null, user)
-            } else {
-                return done(null, false, {
-                    message: "There is no user with that username and password."
-                })
-            }
-        })
-    }));
+passport.use(new LocalStrategy(authenticateUser));
+passport.use(new BasicStrategy(authenticateUser));
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
