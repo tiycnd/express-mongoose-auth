@@ -2,6 +2,7 @@
   "private": true,
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "express-flash-messages": "^0.1.1",
@@ -11,6 +12,7 @@
     "mongoose": "^4.11.4",
     "mustache-express": "^1.2.5",
     "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
     "passport-local": "^1.0.0"
   }
 }
